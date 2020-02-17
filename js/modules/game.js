@@ -49,7 +49,8 @@ const Game = (_ => {
         // check if guess already exists in chosenWord
         if (chosenWord.includes(guess)) {
             // update the guessing word
-
+            updateGuessingWord(guess);
+            console.log(guessingWord);
         } else {
             lives--;
             // render the board
@@ -57,14 +58,23 @@ const Game = (_ => {
         render();
     };
 
-    const render = _ => {
+    const updateGuessingWord = letter => {
+        chosenWord.split("").forEach((elem, index) => {
+            if (elem === letter) {
+                guessingWord[index] = elem;
+            }
+        })
+    };
 
+    const render = _ => {
+        document.querySelector(".hangman__lives").innerHTML = lives;
+        document.querySelector(".hangman__word").innerHTML = guessingWord.join("");
     };
 
     const showInitPage = _ => {
         let markup = `
               <p class="hangman__stats">Lives: 
-              <span class=""hangman__lives>${lives}</span>
+              <span class="hangman__lives">${lives}</span>
               </p>
               <h1 class="hangman__title">Hangman</h1>
               <canvas class="hangman__board" height="155px"></canvas>

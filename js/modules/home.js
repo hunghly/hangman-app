@@ -24,7 +24,7 @@ const Home = (_ => {
             Game.init();
             sound.click.play();
         });
-        document.querySelector(".instructions").addEventListener("click", _=> {
+        document.querySelector(".instructions").addEventListener("click", _ => {
             How.init();
             sound.click.play();
         });

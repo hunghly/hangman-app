@@ -1,4 +1,6 @@
 import Home from "./home.js";
+import End from "./end.js";
+import Board from "./board.js";
 import {sound} from "../data/sound.js";
 
 const Game = (_ => {
@@ -16,14 +18,16 @@ const Game = (_ => {
 
     const init = _ => {
         chosenWord = chooseWord();
-        console.log(chosenWord);
+        // console.log(chosenWord);
         guessingWord = Array(chosenWord.length).fill("_");
-        console.log(guessingWord);
+        // console.log(guessingWord);
         guesses = [];
+        console.log(guesses);
         lives = 7;
         //show initial screen
         showInitPage();
         listeners();
+        Board.init();
     };
 
     const listeners = _ => {
@@ -44,18 +48,45 @@ const Game = (_ => {
     };
 
     const check = guess => {
-        if (isAlreadyTaken()) return;
-        guesses.push(guess);
-        // check if guess already exists in chosenWord
-        if (chosenWord.includes(guess)) {
-            // update the guessing word
-            updateGuessingWord(guess);
-            console.log(guessingWord);
-        } else {
-            lives--;
+        if (!isAlreadyTaken(guess)) {
+            guesses.push(guess);
+            // check if guess already exists in chosenWord
+            if (chosenWord.includes(guess)) {
+                // update the guessing word
+                updateGuessingWord(guess);
+            } else {
+                lives--;
+                Board.setLives(lives);
+            }
             // render the board
+            render();
+            // check if game is over
+            isGameOver();
         }
-        render();
+    };
+
+    const hasWon = _ => guessingWord.join("") === chosenWord;
+
+    const hasLost = _ => lives <= 0;
+
+
+    const isGameOver = _ => {
+        // if won then alert('win');
+        if (hasWon()) {
+            sound.win.play();
+            End.setState({
+                chosenWord: chosenWord,
+                result: "win"
+            });
+        }
+        // if lost then alert('lose');
+        if (hasLost()) {
+            sound.lose.play();
+            End.setState({
+                chosenWord: chosenWord,
+                result: "lose"
+            });
+        }
     };
 
     const updateGuessingWord = letter => {

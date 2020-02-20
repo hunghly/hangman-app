@@ -5,7 +5,6 @@ import {sound} from "../data/sound.js";
 const Home = (_ => {
     const $hangman = document.querySelector(".hangman");
     const init = _ => {
-        console.log("this is init function");
         render();
         listeners();
     };

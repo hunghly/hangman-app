@@ -2,32 +2,63 @@ import Home from "./home.js";
 import End from "./end.js";
 import Board from "./board.js";
 import {sound} from "../data/sound.js";
+import {wordnikKey} from "../keys.js";
 
 const Game = (_ => {
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
-    const words = ['apple', 'ball', 'cat', 'dog', 'elephant'];
+    // const words = ['burrito', 'basketball', 'batman', 'coding', 'elephant', 'zorro', 'apollo', 'ranger'];
 
     let chosenWord;
     let guessingWord;
     let lives;
     let guesses;
 
+    // const getRandomWord = () => {
+    //     fetch(`https://api.wordnik.com/v4/words.json/randomWord?hasDictionaryDef=true&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=${wordnikKey}`, {
+    //         "method": "GET"
+    //     }).then((result) => {
+    //         return result.json();
+    //     }).then((data) => {
+    //         console.log(data.word);
+    //         chosenWord = data.word;
+    //     })
+    // };
+
     //cache Dom
     const $hangman = document.querySelector(".hangman");
 
     const init = _ => {
-        chosenWord = chooseWord();
-        // console.log(chosenWord);
-        guessingWord = Array(chosenWord.length).fill("_");
-        // console.log(guessingWord);
-        guesses = [];
-        console.log(guesses);
-        lives = 7;
-        //show initial screen
-        showInitPage();
-        listeners();
-        Board.init();
+        // chosenWord = chooseWord();
+        // getRandomWord();
+        return fetch(`https://api.wordnik.com/v4/words.json/randomWord?hasDictionaryDef=true&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=${wordnikKey}`, {
+            "method": "GET"
+        }).then((result) => {
+            return result.json();
+        }).then((data) => {
+            chosenWord = data.word;
+            chosenWord = chosenWord.toString().toLowerCase();
+            guessingWord = Array(chosenWord.length).fill("_");
+            if (chosenWord.includes('-')) {
+                guessingWord[chosenWord.indexOf('-')] = '-';
+            }
+            if (chosenWord.includes(' ')) {
+                guessingWord[chosenWord.indexOf(' ')] = ' ';
+            }
+            guesses = [];
+            lives = 7;
+            //show initial screen
+            showInitPage();
+            listeners();
+            Board.init();
+        })
+        // guessingWord = Array(chosenWord.length).fill("_");
+        // guesses = [];
+        // lives = 7;
+        // //show initial screen
+        // showInitPage();
+        // listeners();
+        // Board.init();
     };
 
     const listeners = _ => {

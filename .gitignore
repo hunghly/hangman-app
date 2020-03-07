@@ -7,4 +7,7 @@
 *.iml
 out
 gen
-js/keys.js
+**keys.js
+public/main.js
+*.map
+node_modules

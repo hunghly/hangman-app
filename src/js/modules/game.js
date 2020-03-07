@@ -2,35 +2,22 @@ import Home from "./home.js";
 import End from "./end.js";
 import Board from "./board.js";
 import {sound} from "../data/sound.js";
-import {wordnikKey} from "../keys.js";
+import {wordnikKey} from "../../keys.js";
+
+
 
 const Game = (_ => {
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-
-    // const words = ['burrito', 'basketball', 'batman', 'coding', 'elephant', 'zorro', 'apollo', 'ranger'];
 
     let chosenWord;
     let guessingWord;
     let lives;
     let guesses;
 
-    // const getRandomWord = () => {
-    //     fetch(`https://api.wordnik.com/v4/words.json/randomWord?hasDictionaryDef=true&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=${wordnikKey}`, {
-    //         "method": "GET"
-    //     }).then((result) => {
-    //         return result.json();
-    //     }).then((data) => {
-    //         console.log(data.word);
-    //         chosenWord = data.word;
-    //     })
-    // };
-
     //cache Dom
     const $hangman = document.querySelector(".hangman");
 
     const init = _ => {
-        // chosenWord = chooseWord();
-        // getRandomWord();
         return fetch(`https://api.wordnik.com/v4/words.json/randomWord?hasDictionaryDef=true&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=${wordnikKey}`, {
             "method": "GET"
         }).then((result) => {
@@ -52,13 +39,6 @@ const Game = (_ => {
             listeners();
             Board.init();
         })
-        // guessingWord = Array(chosenWord.length).fill("_");
-        // guesses = [];
-        // lives = 7;
-        // //show initial screen
-        // showInitPage();
-        // listeners();
-        // Board.init();
     };
 
     const listeners = _ => {
@@ -160,13 +140,6 @@ const Game = (_ => {
         return markup;
     };
 
-    //1. choose a random word, chosenWord = chooseWord()
-    const chooseWord = _ => {
-        let randNum = Math.floor(Math.random() * words.length);
-        return words[randNum];
-    };
-    // apple chosenWord
-    // -pp-- guessingWord
     return {
         init
     }

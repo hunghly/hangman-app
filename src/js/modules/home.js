@@ -2,6 +2,8 @@ import Game from "./game.js";
 import How from "./how.js";
 import {sound} from "../data/sound.js";
 
+
+
 const Home = (_ => {
     const $hangman = document.querySelector(".hangman");
     const init = _ => {
